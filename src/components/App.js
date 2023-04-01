@@ -66,6 +66,8 @@ function App() {
 
   function signOut() {
     localStorage.removeItem("jwt");
+
+    setLoggedIn(false);
   }
 
   function closeToolTip() {
@@ -165,11 +167,6 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => {
-    api.getInitialCards().then(setCards).catch(console.error);
-    api.getUserInfo().then(setCurrentUser).catch(console.error);
-  }, []);
-
   const isOpen =
     isEditPopupAvatar ||
     isEditPopupProfile ||
@@ -228,7 +225,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header email={email} exit={signOut} />
+        <Header email={email} exit={signOut} loggedIn={loggedIn} />
 
         <Routes>
           <Route path="/mesto-react" element={<Navigate to="/" replace />} />
